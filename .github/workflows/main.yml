@@ -16,14 +16,15 @@ jobs:
     - name: Build and deploy
       env:
         GITHUB_TOKEN: ${{ secrets.API_KEY }}
+        API_KEY: ${{ secrets.API_KEY }}  # Acessando o segredo da chave de API
       run: |
-         # Substituir o valor da chave de API no arquivo main.js
-        sed -i "s/YOUR_API_KEY/${GITHUB_TOKEN}/" main.js
+        # Substituir o valor da chave de API no arquivo main.js
+        sed -i "s/YOUR_API_KEY/${API_KEY}/" main.js
 
         # O restante do seu processo de construção e implantação
 
-        git config --global user.email "you@example.com"
-        git config --global user.name "Your Name"
+        git config --global user.email "luizeduardosad@hotmail.com"
+        git config --global user.name "Luiz"
         git checkout main
         git add main.js
         git commit -m "Update API key in main.js"
