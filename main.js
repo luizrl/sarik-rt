@@ -54,7 +54,6 @@ async function getDataFromGithub(folder = "") {
 
   if (result) {
     document.querySelector(".loader").style.display = "none";
-    console.log("oi");
   }
 
   return result;
