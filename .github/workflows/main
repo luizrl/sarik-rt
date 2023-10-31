@@ -1,0 +1,31 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build and deploy
+      env:
+        GITHUB_TOKEN: ${{ secrets.API_KEY }}
+        API_KEY: ${{ secrets.API_KEY }}  # Acessando o segredo da chave de API
+      run: |
+        # Substituir o valor da chave de API no arquivo main.js
+        sed -i "s/YOUR_API_KEY/${API_KEY}/" main.js
+
+        # O restante do seu processo de construção e implantação
+
+        git config --global user.email "luizeduardosad@hotmail.com"
+        git config --global user.name "Luiz"
+        git checkout main
+        git add main.js
+        git commit -m "Update API key in main.js"
+        git push --force --quiet "https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" main:gh-pages
