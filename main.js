@@ -1,7 +1,7 @@
-const { data } = await getDataFromGithub();
-const { data: relatorioTecnico } = await getDataFromGithub(
+const data = await getDataFromGithub();
+const relatorioTecnico = await getDataFromGithub(
   createMap(data).get("Relatório Técnico").path
-);
+  );
 const contents = createMap(relatorioTecnico);
 
 createTree(contents);
@@ -21,6 +21,7 @@ function createTree(content, parent = "") {
 }
 
 function createMap(obj) {
+  console.log(obj)
   return new Map(
     obj.map(({ name, type, download_url, sha, path }) => {
       return [name, { path, type, download_url, sha }];
@@ -50,8 +51,10 @@ async function getContentFromRaw(url, element) {
 }
 
 async function getDataFromGithub(folder = "") {
-  const res = fetch(`https://api.github.com/repos/jonathamgg/sarik_validation_graphics/contents/${folder}?ref=master`);
+  const res = await fetch(`https://api.github.com/repos/jonathamgg/sarik_validation_graphics/contents/${folder}?ref=master`);
   const result = await res.json();
+
+  console.log(result)
 
   if (result) {
     document.querySelector(".loader").style.display = "none";
