@@ -1,9 +1,3 @@
-import { Octokit } from "https://esm.sh/octokit";
-const API_KEY = 'YOUR_API_KEY';
-const octokit = new Octokit({
-  auth: API_KEY,
-});
-
 const { data } = await getDataFromGithub();
 const { data: relatorioTecnico } = await getDataFromGithub(
   createMap(data).get("Relatório Técnico").path
@@ -35,15 +29,7 @@ function createMap(obj) {
 }
 
 async function getContentFromFolder(folder, parent = "", url = "") {
-  const { data } = await octokit.request(
-    "GET /repos/{owner}/{repo}/contents/{folder}?ref={branch}",
-    {
-      owner: "jonathamgg",
-      repo: "sarik_validation_graphics",
-      folder: folder,
-      branch: "master",
-    }
-  );
+  const { data } = await fetch(`https://api.github.com/repos/jonathamgg/sarik_validation_graphics/contents/${folder}?ref=master`);
 
   if (parent.classList.contains("is-open")) {
     parent.classList.remove("is-open");
@@ -63,15 +49,8 @@ async function getContentFromRaw(url, element) {
 }
 
 async function getDataFromGithub(folder = "") {
-  const result = await octokit.request(
-    "GET /repos/{owner}/{repo}/contents/{folder}?ref={branch}",
-    {
-      owner: "jonathamgg",
-      repo: "sarik_validation_graphics",
-      folder: folder,
-      branch: "master",
-    }
-  );
+  const result = fetch(
+    `https://api.github.com/repos/jonathamgg/sarik_validation_graphics/contents/${folder}?ref=master`);
 
   if (result) {
     document.querySelector(".loader").style.display = "none";
