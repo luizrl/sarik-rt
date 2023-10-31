@@ -29,7 +29,8 @@ function createMap(obj) {
 }
 
 async function getContentFromFolder(folder, parent = "", url = "") {
-  const { data } = await fetch(`https://api.github.com/repos/jonathamgg/sarik_validation_graphics/contents/${folder}?ref=master`);
+  const res = await fetch(`https://api.github.com/repos/jonathamgg/sarik_validation_graphics/contents/${folder}?ref=master`);
+  const {data} = await res.json();
 
   if (parent.classList.contains("is-open")) {
     parent.classList.remove("is-open");
@@ -49,8 +50,8 @@ async function getContentFromRaw(url, element) {
 }
 
 async function getDataFromGithub(folder = "") {
-  const result = fetch(
-    `https://api.github.com/repos/jonathamgg/sarik_validation_graphics/contents/${folder}?ref=master`);
+  const res = fetch(`https://api.github.com/repos/jonathamgg/sarik_validation_graphics/contents/${folder}?ref=master`);
+  const result = await res.json();
 
   if (result) {
     document.querySelector(".loader").style.display = "none";
