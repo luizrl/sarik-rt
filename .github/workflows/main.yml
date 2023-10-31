@@ -1,21 +1,30 @@
-name: UPDATE_APP_ACTION
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
       - main
+
 jobs:
-  update-readme-with-appinfo:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout
-        uses: actions/checkout@v1
-      - name: setup node
-        uses: actions/setup-node@v1
-      - name: Install dependencies
-        run: npm install
-      - name: Generate README file
-        run: node index.js
-        env:
-          MY_API_KEY: ${{secrets.GET_TEST}}
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build and deploy
+      env:
+        GITHUB_TOKEN: ${{ secrets.API_KEY }}
+      run: |
+         # Substituir o valor da chave de API no arquivo main.js
+        sed -i "s/YOUR_API_KEY/${GITHUB_TOKEN}/" main.js
+
+        # O restante do seu processo de construção e implantação
+
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
+        git checkout main
+        git add main.js
+        git commit -m "Update API key in main.js"
+        git push --force --quiet "https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" main:gh-pages
