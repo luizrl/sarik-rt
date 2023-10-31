@@ -1,7 +1,7 @@
 import { Octokit } from "https://esm.sh/octokit";
-
+const API_KEY = 'YOUR_API_KEY';
 const octokit = new Octokit({
-  auth: "GET_TEST",
+  auth: API_KEY,
 });
 
 const { data } = await getDataFromGithub();
